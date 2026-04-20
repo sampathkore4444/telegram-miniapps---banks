@@ -102,3 +102,24 @@ async def get_transactions(
         db, current_user.user_id, limit
     )
     return transactions
+
+
+@router.post("/spin")
+async def spin_wheel_result(
+    prize_value: int,
+    prize_label: str,
+    current_user: TokenData = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Record spin wheel result and award coins using RewardService."""
+    result = await RewardService.award_spin_reward(
+        db, current_user.user_id, prize_value, prize_label
+    )
+
+    if not result["success"]:
+        return {
+            "success": False,
+            "message": result.get("message", "Failed to record spin"),
+        }
+
+    return result

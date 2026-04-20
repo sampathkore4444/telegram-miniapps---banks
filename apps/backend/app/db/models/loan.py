@@ -6,6 +6,7 @@ from sqlalchemy import (
     Integer,
     Boolean,
     DateTime,
+    Date,
     Numeric,
     Text,
     ForeignKey,
@@ -229,6 +230,48 @@ class MissionCompletion(Base):
     reward_claimed = Column(Boolean, default=False)
     completed_at = Column(DateTime, server_default=func.now())
     rewarded_at = Column(DateTime, nullable=True)
+
+
+class CashbackReward(Base):
+    """Cashback rewards for loan repayments."""
+
+    __tablename__ = "cashback_rewards"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    loan_id = Column(String(36), ForeignKey("loans.id"), nullable=False)
+    repayment_id = Column(String(36), nullable=True)
+    amount = Column(Numeric(15, 2), nullable=False)
+    tiers_earned = Column(Text, nullable=True)  # JSON string of tiers
+    status = Column(String(20), default="awarded")  # pending, awarded, expired
+    created_at = Column(DateTime, server_default=func.now())
+
+
+# Streak model for daily check-ins
+class Streak(Base):
+    """User streak data for daily check-ins."""
+
+    __tablename__ = "streaks"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False, unique=True)
+    current_streak = Column(Integer, default=0)
+    longest_streak = Column(Integer, default=0)
+    total_check_ins = Column(Integer, default=0)
+    last_check_in = Column(Date, nullable=True)
+    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
+
+
+class CheckIn(Base):
+    """Daily check-in record."""
+
+    __tablename__ = "check_ins"
+
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    user_id = Column(String(36), ForeignKey("users.id"), nullable=False)
+    check_in_date = Column(Date, nullable=False)
+    streak_count = Column(Integer, default=0)
+    created_at = Column(DateTime, server_default=func.now())
 
 
 # Add relationships to User model

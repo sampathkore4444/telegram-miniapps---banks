@@ -1,7 +1,18 @@
 """API router configuration."""
 
 from fastapi import APIRouter
-from .endpoints import auth, users, loans, referrals, rewards, payments, telegram, leads
+from .endpoints import (
+    auth,
+    users,
+    loans,
+    referrals,
+    rewards,
+    payments,
+    telegram,
+    leads,
+    streak,
+    cashback,
+)
 
 api_router = APIRouter()
 
@@ -14,3 +25,5 @@ api_router.include_router(rewards.router, prefix="/rewards", tags=["Rewards"])
 api_router.include_router(payments.router, prefix="/payments", tags=["Payments"])
 api_router.include_router(telegram.router, prefix="/telegram", tags=["Telegram"])
 api_router.include_router(leads.router, prefix="/leads", tags=["Lead Generation"])
+api_router.include_router(streak.router, prefix="/streak", tags=["Streak"])
+api_router.include_router(cashback.router, prefix="/cashback", tags=["Cashback"])

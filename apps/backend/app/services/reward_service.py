@@ -237,6 +237,58 @@ class RewardService:
         )
 
     @staticmethod
+    async def award_spin_reward(
+        db: Session, user_id: int, prize_value: int, prize_label: str
+    ) -> Dict[str, Any]:
+        """Award spin wheel prize"""
+        from app.db.models.user import User, Wallet as UserWallet, WalletTransaction
+        from decimal import Decimal
+        from datetime import datetime
+        import uuid
+
+        amount = Decimal(str(prize_value))
+
+        # Get or create wallet
+        wallet = db.query(UserWallet).filter(UserWallet.user_id == user_id).first()
+
+        if not wallet:
+            wallet = UserWallet(
+                id=str(uuid.uuid4()),
+                user_id=user_id,
+                available_balance=amount,
+                lifetime_earnings=amount,
+            )
+            db.add(wallet)
+        else:
+            wallet.available_balance += amount
+            wallet.lifetime_earnings += amount
+
+        wallet.updated_at = datetime.utcnow()
+
+        # Create transaction record
+        transaction = WalletTransaction(
+            id=str(uuid.uuid4()),
+            wallet_id=wallet.id,
+            transaction_type="earn",
+            amount=amount,
+            source="spin_wheel",
+            description=f"Spin wheel prize: {prize_label}",
+            status="completed",
+            completed_at=datetime.utcnow(),
+        )
+        db.add(transaction)
+        db.commit()
+        db.refresh(wallet)
+
+        return {
+            "success": True,
+            "prize_value": prize_value,
+            "prize_label": prize_label,
+            "new_balance": float(wallet.available_balance),
+            "transaction_id": transaction.id,
+        }
+
+    @staticmethod
     async def award_cashback(
         db: Session, user_id: int, transaction_amount: Decimal, percentage: float = 1.0
     ) -> Dict[str, Any]:

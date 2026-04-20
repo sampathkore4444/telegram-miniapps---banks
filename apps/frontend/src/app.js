@@ -108,6 +108,16 @@ const App = {
         render: SpinWheelPage.render.bind(SpinWheelPage),
         showBack: true,
       },
+      // Streak page
+      streak: {
+        render: StreakPage.render.bind(StreakPage),
+        showBack: true,
+      },
+      // Social page
+      social: {
+        render: SocialPage.render.bind(SocialPage),
+        showBack: true,
+      },
     };
   },
 
@@ -178,6 +188,8 @@ const App = {
         calculator: "Loan Calculator",
         leads: "Compare & Earn",
         spinwheel: "Daily Spin",
+        streak: "Daily Check-in",
+        social: "Social Hub",
       };
       headerTitle.textContent = titles[page] || "Bank";
     }
