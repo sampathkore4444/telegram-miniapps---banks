@@ -98,7 +98,7 @@ const App = {
       promo: { render: PromoPage.render.bind(PromoPage), showBack: true },
       bills: { render: BillsPage.render.bind(BillsPage), showBack: true },
       calculator: {
-        render: CalculatorPage.render.bind(CalculatorPage),
+        render: window.renderCalculatorPage,
         showBack: true,
       },
       // Lead generation page
@@ -116,6 +116,16 @@ const App = {
       // Social page
       social: {
         render: SocialPage.render.bind(SocialPage),
+        showBack: true,
+      },
+      // Credit Score page
+      creditscore: {
+        render: window.renderCreditScorePage,
+        showBack: true,
+      },
+      // AI Loan Advisor page
+      aiadvisor: {
+        render: window.renderAIAdvisorPage,
         showBack: true,
       },
     };
@@ -190,6 +200,8 @@ const App = {
         spinwheel: "Daily Spin",
         streak: "Daily Check-in",
         social: "Social Hub",
+        creditscore: "Credit Score",
+        aiadvisor: "AI Advisor",
       };
       headerTitle.textContent = titles[page] || "Bank";
     }
@@ -270,6 +282,16 @@ const App = {
     window.showToast("Logged out", "info");
     this.navigate("home");
   },
+};
+
+// Global navigation function
+window.navigateTo = function (page) {
+  App.navigate(page);
+};
+
+// Global page load function
+window.loadPage = function (page) {
+  App.navigate(page);
 };
 
 // Global helper functions

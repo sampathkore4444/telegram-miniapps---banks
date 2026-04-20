@@ -104,6 +104,38 @@ const HomePage = {
                     </div>
                     <span class="quick-action-label">Bills</span>
                 </button>
+                <button class="quick-action" data-action="calculator">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/>
+                            <line x1="8" y1="10" x2="16" y2="10"/>
+                            <line x1="8" y1="14" x2="12" y2="14"/>
+                            <line x1="8" y1="18" x2="12" y2="18"/>
+                        </svg>
+                    </div>
+                    <span class="quick-action-label">Calculator</span>
+                </button>
+                <button class="quick-action" data-action="creditscore">
+                    <div class="quick-action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 20V10"/>
+                            <path d="M18 20V4"/>
+                            <path d="M6 20v-4"/>
+                        </svg>
+                    </div>
+                    <span class="quick-action-label">Credit Score</span>
+                </button>
+                <button class="quick-action" data-action="aiadvisor">
+                    <div class="quick-action-icon" style="background: linear-gradient(135deg, #667eea, #764ba2);">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a10 10 0 1 0 10 10"/>
+                            <path d="M12 2v4"/>
+                            <circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </div>
+                    <span class="quick-action-label">AI Advisor</span>
+                </button>
             </div>
         `;
   },
@@ -234,6 +266,15 @@ const HomePage = {
         break;
       case "bills":
         window.showToast("Bills feature coming soon", "info");
+        break;
+      case "calculator":
+        window.navigateTo("calculator");
+        break;
+      case "creditscore":
+        window.navigateTo("creditscore");
+        break;
+      case "aiadvisor":
+        window.navigateTo("aiadvisor");
         break;
     }
   },
