@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#2481CC">
+    <title>Bank Mini App</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/variables.css">
+    
+    <!-- Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="header" id="header">
+            <button class="back-btn" id="backBtn" style="display: none;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 18l-6-6 6-6"/>
+                </svg>
+            </button>
+            <h1 class="header-title" id="headerTitle">Bank</h1>
+            <div class="header-actions">
+                <button class="notification-btn" id="notificationBtn">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main" id="main">
+            <!-- Pages will be rendered here -->
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav" id="bottomNav">
+            <button class="nav-item active" data-page="home">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>Home</span>
+            </button>
+            <button class="nav-item" data-page="accounts">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                    <line x1="2" y1="10" x2="22" y2="10"/>
+                </svg>
+                <span>Accounts</span>
+            </button>
+            <button class="nav-item" data-page="loans">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="1" x2="12" y2="23"/>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                </svg>
+                <span>Loans</span>
+            </button>
+            <button class="nav-item" data-page="more">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="1"/>
+                    <circle cx="12" cy="5" r="1"/>
+                    <circle cx="12" cy="19" r="1"/>
+                </svg>
+                <span>More</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Scripts - Order matters! -->
+    <!-- Utilities -->
+    <script src="/src/utils/router.js"></script>
+    <script src="/src/utils/api.js"></script>
+    
+    <!-- Store -->
+    <script src="/src/store/app.js"></script>
+    
+    <!-- Services -->
+    <script src="/src/services/auth.js"></script>
+    <script src="/src/services/user.js"></script>
+    
+    <!-- Components -->
+    <script src="/src/components/header.js"></script>
+    
+    <!-- Pages -->
+    <script src="/src/pages/home.js"></script>
+    <script src="/src/pages/accounts.js"></script>
+    <script src="/src/pages/loans.js"></script>
+    <script src="/src/pages/eligibility.js"></script>
+    <script src="/src/pages/referral.js"></script>
+    <script src="/src/pages/wallet.js"></script>
+    <script src="/src/pages/profile.js"></script>
+    <script src="/src/pages/notifications.js"></script>
+    <script src="/src/pages/help.js"></script>
+    <script src="/src/pages/settings.js"></script>
+    <script src="/src/pages/kyc.js"></script>
+    <script src="/src/pages/quiz.js"></script>
+    <script src="/src/pages/promo.js"></script>
+    <script src="/src/pages/bills.js"></script>
+    <script src="/src/pages/calculator.js"></script>
+    <script src="/src/pages/leads.js"></script>
+    <script src="/src/pages/spinwheel.js"></script>
+    
+    <!-- Main App -->
+    <script src="/src/app.js"></script>
+</body>
+</html>
