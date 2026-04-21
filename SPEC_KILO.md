@@ -1,9 +1,10 @@
 # Telegram Mini App - Bank Growth Funnel Toolkit
 ## Technical Specification Document (SPEC_KILO.md)
 
-**Version:** 1.0  
+**Version:** 1.1  
 **Created:** 2026-04-20  
-**Status:** Draft  
+**Status:** In Progress  
+**Last Updated:** 2026-04-21  
 **Based On:** SPEC.md
 
 ---
@@ -400,8 +401,8 @@ Transform Telegram from just a messaging platform into a **smart acquisition fun
 
 | Layer | Technology | Justification |
 |-------|-------------|----------------|
-| Frontend (Mini App) | React + TypeScript | Strong Telegram WebApp SDK support |
-| State Management | Zustand / React Query | Lightweight, TypeScript-friendly |
+| Frontend (Mini App) | Vanilla JavaScript | Lightweight, fastest load time, no build overhead |
+| State Management | Custom Event Bus | Lightweight pub/sub for component communication |
 | Styling | Tailwind CSS | Rapid UI development |
 | Backend API | Node.js + NestJS | Scalable, modular architecture |
 | Database | PostgreSQL + Redis | ACID compliance + caching |
@@ -1109,6 +1110,126 @@ interface WalletTransaction {
 
 ---
 
+### 5.3 Daily Spin Wheel
+
+**Description:** Lucky spin wheel with daily free spins and coin rewards.
+
+**Spin Wheel Features:**
+
+| Feature | Description |
+|--------|-------------|
+| Daily Free Spin | 1 free spin per day |
+| Coin Prizes | Random coin rewards (10-100 coins) |
+| Special Jackpot | Occasional big prizes |
+| Spin Animation | Visual wheel spin effect |
+
+**Spin Rewards Table:**
+
+| Prize | Value | Probability |
+|--------|-------|-------------|
+| 10 Coins | 10 | 40% |
+| 25 Coins | 25 | 25% |
+| 50 Coins | 50 | 15% |
+| 100 Coins | 100 | 10% |
+| 200 Coins | 200 | 5% |
+| Jackpot | 500 | 5% |
+
+**Technical Implementation:**
+
+```typescript
+interface SpinWheelResult {
+  userId: string;
+  todaySpin: boolean;
+  prize: {
+    coins: number;
+    isJackpot: boolean;
+  };
+  timestamp: Date;
+  dailySpinCount: number;
+}
+```
+
+---
+
+### 5.4 Daily Check-in Streaks
+
+**Description:** Consecutive day check-ins with milestone rewards.
+
+**Streak System Features:**
+
+| Feature | Description |
+|--------|-------------|
+| Daily Check-in | Check in once per day |
+| Streak Counter | Track consecutive days |
+| Milestone Rewards | Bonus coins at day milestones |
+| Streak Freeze |Protect streak from missing a day|
+
+**Milestone Rewards:**
+
+| Streak Days | Reward Coins |
+|-----------|-------------|
+| 3 Days | 25 Coins |
+| 7 Days | 75 Coins |
+| 14 Days | 150 Coins |
+| 30 Days | 300 Coins |
+| 60 Days | 500 Coins |
+| 90 Days | 1000 Coins |
+
+---
+
+### 5.5 Social Features & Achievements
+
+**Description:** Gamification through achievements, leaderboards, and social sharing.
+
+
+**Achievement System:**
+
+| Achievement | Tier | Coins | Requirement |
+|-------------|------|------|------------|
+| Welcome | Bronze | 10 | First login |
+| First Loan | Bronze | 50 | Apply for first loan |
+| Punctual | Bronze | 30 | Early loan payment |
+| Rising Star | Silver | 25 | 3-day streak |
+| Week Warrior | Silver | 75 | 7-day streak |
+| Friend Maker | Silver | 100 | Refer 3 friends |
+| Quiz Master | Silver | 100 | Complete 5 quizzes |
+| Lucky Spinner | Silver | 75 | Spin 10 times |
+| Fortnight Fighter | Gold | 150 | 14-day streak |
+| Monthly Champion | Gold | 300 | 30-day streak |
+| Influencer | Gold | 500 | Refer 10 friends |
+| Network Legend | Gold | 1000 | Refer 25 friends |
+
+**Leaderboards:**
+
+| Type | Description |
+|------|-------------|
+| Referrals | Top referrers |
+| Streaks | Longest streak holders |
+| Earnings | Most coins earned |
+
+**Social Sharing:**
+- Share progress to Telegram
+- Copy referral links
+- Share achievements
+- Invite friends
+
+---
+
+### 5.6 Cashback on Loan Repayments
+
+**Description:** Cashback rewards on successful loan repayments.
+
+**Cashback Tiers:**
+
+| Loan Amount | Cashback % |
+|------------|------------|
+| < $500 | 1% |
+| $500-$1000 | 2% |
+| $1000-$3000 | 3% |
+| > $3000 | 5% |
+
+---
+
 ## Phase 6: Pre-Activation Engagement
 
 ### 6.1 Balance Simulator
@@ -1192,6 +1313,103 @@ interface LoanCalculation {
 ---
 
 ## Phase 7: Loan Application & Micro-Lending
+
+### 7.x Loan Calculator
+
+**Description:** EMI calculator with amortization schedule.
+
+**Calculator Features:**
+
+
+| Feature | Description |
+|--------|-------------|
+| Loan Amount Slider | $100 - $10,000 |
+| Interest Rate Slider | 0% - 20% |
+| Tenure Slider | 1 - 36 months |
+| EMI Result | Monthly payment display |
+| Total Interest | Total interest calculation |
+| Amortization Schedule | Month-by-month breakdown |
+
+**Amortization Schedule:**
+
+| Month | Principal | Interest | EMI | Balance |
+|------|----------|---------|-----|---------|
+| 1 | $80.00 | $4.17 | $84.17 | $920.00 |
+| 2 | $81.33 | $2.84 | $84.17 | $838.67 |
+| ... | ... | ... | ... | ... |
+
+
+**Technical Implementation:**
+
+
+```typescript
+interface LoanCalculation {
+  principal: number;
+  interestRate: number;
+  tenureMonths: number;
+  emi: number;
+  totalInterest: number;
+  totalPayment: number;
+  amortization: AmortizationEntry[];
+}
+
+function calculateEMI(principal, annualRate, months) {
+  const monthlyRate = annualRate / 12 / 100;
+  if (monthlyRate === 0) return principal / months;
+  return (principal * monthlyRate * Math.pow(1 + monthlyRate, months)) / 
+         (Math.pow(1 + monthlyRate, months) - 1);
+}
+```
+
+---
+
+### 7.y Credit Score Display
+
+**Description:** View and track credit score.
+
+
+**Features:**
+- Score gauge visualization (300-850)
+- Grade classification: Excellent/Very Good/Good/Fair/Poor
+- 5 key factors affecting score
+- Improvement tips with impact estimates
+
+**Score Factors:**
+| Factor | Weight | Impact |
+|---------|--------|-------|
+| Payment History | 35% | Your loan repayments |
+| Credit Utilization | 30% | Credit usage % |
+| Credit History | 15% | Length of history |
+| New Credit | 10% | Recent applications |
+| Credit Mix | 10% | Diversity of credit |
+
+---
+
+### 7.z AI Loan Advisor
+
+**Description:** AI-powered personalized loan recommendations.
+
+
+**AI Features:**
+- Profile analysis (credit score, income, employment)
+- Match scoring (0-95%)
+- Interest rate adjustments based on profile
+- Smart reasons for recommendations
+
+**Loan Products:**
+| Product | Rate | Best For |
+|---------|-----|--------|
+| Personal Loan | 3.5% APR | Any expenses |
+| Salary Advance | 2.0% APR | Quick cash |
+| Business Loan | 4.5% APR | Business growth |
+| Education Loan | 2.5% APR | Learning |
+| Home Improvement | 3.0% APR | Renovation |
+
+---
+
+---
+
+## Phase 8: Merchant & Partner Acquisition
 
 ### 7.1 Instant Loan Eligibility
 

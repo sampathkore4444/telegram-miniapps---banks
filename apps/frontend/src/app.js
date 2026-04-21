@@ -255,6 +255,13 @@ const App = {
           name: "John Doe",
           phone: "+85512345678",
         });
+        
+        // Connect WebSocket for real-time updates
+        try {
+          window.wsClient.connectNotifications("1");
+        } catch (e) {
+          console.log("WebSocket not available");
+        }
         store.setAccounts([
           {
             id: "1",
